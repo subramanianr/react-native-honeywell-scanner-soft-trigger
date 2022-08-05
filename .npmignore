@@ -1,0 +1,12 @@
+.vs
+.gitattributes
+tsconfig.json
+/src
+
+# Android/IntelliJ
+#
+build/
+.idea
+.gradle
+local.properties
+*.iml

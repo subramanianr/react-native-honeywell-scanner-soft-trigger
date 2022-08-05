@@ -1,15 +1,10 @@
 package nl.volst.HoneywellScanner;
 
-import java.lang.reflect.Method;
-import java.util.Set;
-import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
-import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.os.Build;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -17,9 +12,9 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.WritableMap;
-import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
+import com.honeywell.aidc.UnsupportedPropertyException;
 
 import static nl.volst.HoneywellScanner.HoneywellScannerPackage.TAG;
 
@@ -97,8 +92,14 @@ public class HoneywellScannerModule extends ReactContextBaseJavaModule implement
                     reader.addBarcodeListener(HoneywellScannerModule.this);
                     try {
                         reader.claim();
+                        reader.setProperty(BarcodeReader.PROPERTY_EAN_8_ENABLED, true);
+                        reader.setProperty(BarcodeReader.PROPERTY_EAN_8_CHECK_DIGIT_TRANSMIT_ENABLED, true);
+                        reader.setProperty(BarcodeReader.PROPERTY_EAN_13_ENABLED, true);
+                        reader.setProperty(BarcodeReader.PROPERTY_EAN_13_CHECK_DIGIT_TRANSMIT_ENABLED, true);
+                        reader.setProperty(BarcodeReader.PROPERTY_EAN_13_TWO_CHAR_ADDENDA_ENABLED, true);
+                        reader.setProperty(BarcodeReader.PROPERTY_EAN_13_FIVE_CHAR_ADDENDA_ENABLED, true);
                         promise.resolve(true);
-                    } catch (ScannerUnavailableException e) {
+                    } catch (ScannerUnavailableException | UnsupportedPropertyException e) {
                         promise.resolve(false);
                         e.printStackTrace();
                     }
