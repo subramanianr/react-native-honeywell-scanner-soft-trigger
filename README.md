@@ -9,6 +9,10 @@ This package works with Honeywell devices that have an integrated barcode scanne
 ## Installation
 
 ```
+npm install react-native-honeywell-scanner-trigger
+
+(Or)
+
 yarn add react-native-honeywell-scanner-trigger
 ```
 
