@@ -7,3 +7,5 @@ android/bin
 local.properties
 build
 .gradle
+.DS_Store
+node_modules

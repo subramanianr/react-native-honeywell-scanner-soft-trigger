@@ -4,9 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import android.os.Build;
-import android.support.annotation.Nullable;
+import javax.annotation.Nullable;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
@@ -60,21 +62,27 @@ public class HoneywellScannerModule extends ReactContextBaseJavaModule implement
         if (mReactContext.hasActiveCatalystInstance()) {
             if (D) Log.d(TAG, "Sending event: " + eventName);
             mReactContext
-                .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                .emit(eventName, params);
+                    .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                    .emit(eventName, params);
         }
     }
 
     public void onBarcodeEvent(BarcodeReadEvent barcodeReadEvent) {
         if (D) Log.d(TAG, "HONEYWELLSCANNER - Barcode scan read");
         WritableMap params = Arguments.createMap();
-        params.putString("data", barcodeReadEvent.getBarcodeData());
+        if (barcodeReadEvent != null) {
+            params.putString("all", barcodeReadEvent.toString());
+            params.putString("data", barcodeReadEvent.getBarcodeData());
+        }
+        params.putString("propogated", "true");
         sendEvent(BARCODE_READ_SUCCESS, params);
     }
 
     public void onFailureEvent(BarcodeFailureEvent barcodeFailureEvent) {
         if (D) Log.d(TAG, "HONEYWELLSCANNER - Barcode scan failed");
-        sendEvent(BARCODE_READ_FAIL, null);
+        WritableMap params = Arguments.createMap();
+        params.putString("data", "Scan Failed at " + barcodeFailureEvent.getTimestamp());
+        sendEvent(BARCODE_READ_FAIL, params);
     }
 
     /*******************************/
@@ -120,33 +128,51 @@ public class HoneywellScannerModule extends ReactContextBaseJavaModule implement
     }
 
     @ReactMethod
-    public void softwareTriggerStart() {
+    public void getReaderInfo(Callback cb) {
         if (reader != null) {
             try {
-                reader.softwareTrigger(true);
-            } catch (ScannerNotClaimedException e) {
-                e.printStackTrace();                
+                cb.invoke(null, reader.getInfo().getName());
             } catch (ScannerUnavailableException e) {
-                e.printStackTrace();                
+                e.printStackTrace();
+                cb.invoke(e.getLocalizedMessage(), null);
             }
         }
     }
 
     @ReactMethod
-    public void softwareTriggerStop() {
+    public void softwareTriggerStart(Callback cb) {
+        if (reader != null) {
+            try {
+                reader.softwareTrigger(true);
+                cb.invoke(null, "Trigger Started");
+            } catch (ScannerNotClaimedException e) {
+                e.printStackTrace();
+                cb.invoke(e.getLocalizedMessage(), null);
+            } catch (ScannerUnavailableException e) {
+                e.printStackTrace();
+                cb.invoke(e.getLocalizedMessage(), null);
+            }
+        }
+    }
+
+    @ReactMethod
+    public void softwareTriggerStop(Callback cb) {
         if (reader != null) {
             try {
                 reader.softwareTrigger(false);
+                cb.invoke(null, "Trigger Stopped");
             } catch (ScannerNotClaimedException e) {
-                e.printStackTrace();                
+                e.printStackTrace();
+                cb.invoke(e.getLocalizedMessage(), null);
             } catch (ScannerUnavailableException e) {
-                e.printStackTrace();                
+                e.printStackTrace();
+                cb.invoke(e.getLocalizedMessage(), null);
             }
         }
     }
 
     private boolean isCompatible() {
-        // This... is not optimal. Need to find a better way to performantly check whether device has a Honeywell scanner 
+        // This... is not optimal. Need to find a better way to performantly check whether device has a Honeywell scanner
         return Build.BRAND.toLowerCase().contains("honeywell");
     }
 
