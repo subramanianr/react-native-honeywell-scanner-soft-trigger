@@ -89,6 +89,20 @@ To stop receiving events:
 HoneywellScanner.offBarcodeReadSuccess();
 HoneywellScanner.offBarcodeReadFail();
 ```
+Soft Trigger
+
+Below logic would ensure you have soft trigger handling. This will toggle the scan button in your application
+
+```js
+HoneywellScanner.softwareTriggerStart((error, name) => {
+      setApiErrorMessage(error != null ? error : name);
+});
+setTimeout(() => {
+      HoneywellScanner.softwareTriggerStop((error, name) => {
+        setApiErrorMessage(error != null ? error : name);
+      });
+}, 2000);
+```
 
 
 ## Inspiration
