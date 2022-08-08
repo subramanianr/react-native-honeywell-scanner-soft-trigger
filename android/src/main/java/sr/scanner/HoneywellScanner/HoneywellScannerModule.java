@@ -1,4 +1,4 @@
-package nl.volst.HoneywellScanner;
+package sr.scanner.HoneywellScanner;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,7 +18,7 @@ import com.facebook.react.bridge.Promise;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.honeywell.aidc.UnsupportedPropertyException;
 
-import static nl.volst.HoneywellScanner.HoneywellScannerPackage.TAG;
+import static sr.scanner.HoneywellScanner.HoneywellScannerPackage.TAG;
 
 import com.honeywell.aidc.AidcManager;
 import com.honeywell.aidc.AidcManager.CreatedCallback;
