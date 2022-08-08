@@ -1,5 +1,5 @@
-import { NativeModules, NativeEventEmitter } from 'react-native';
-
+import { LogBox, NativeModules, NativeEventEmitter } from 'react-native';
+LogBox.ignoreLogs(['new NativeEventEmitter']);
 const { HoneywellScanner } = NativeModules;
 
 /**
