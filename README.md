@@ -90,3 +90,7 @@ HoneywellScanner.offBarcodeReadFail();
 ## Inspiration
 
 The [react-native-bluetooth-serial](https://github.com/rusel1989/react-native-bluetooth-serial) project was used as inspiration. [cordova-honeywell](https://github.com/icsfl/cordova-honeywell) also served as some inspiration.
+
+## Sample React Native APP illustrating the above soft trigger capability
+
+Clone the [Project](https://github.com/subramanianr/react-native-app-illustrator-with-scan-trigger-app). Follow the README to build and generate APK. Happy Testing!
