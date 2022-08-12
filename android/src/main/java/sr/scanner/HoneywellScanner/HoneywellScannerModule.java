@@ -73,8 +73,11 @@ public class HoneywellScannerModule extends ReactContextBaseJavaModule implement
         if (barcodeReadEvent != null) {
             params.putString("all", barcodeReadEvent.toString());
             params.putString("data", barcodeReadEvent.getBarcodeData());
+            params.putString("timeStamp", barcodeReadEvent.getTimestamp());
+            params.putString("charSet", barcodeReadEvent.getCharset().displayName());
+            params.putString("codeId", barcodeReadEvent.getCodeId());
         }
-        params.putString("propogated", "true");
+        params.putString("propagated", "true");
         sendEvent(BARCODE_READ_SUCCESS, params);
     }
 
