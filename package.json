@@ -1,14 +1,15 @@
 {
   "name": "react-native-honeywell-scanner-trigger",
   "description": "A barcode scanner for Honeywell handheld devices like Honeywell Dolphin CT40",
-  "version": "1.0.6",
+  "version": "1.0.8",
   "main": "index.js",
   "author": "Subramanian Ramaswamy <subramanian.ramaswamy@ingrammicro.com>",
   "repository": "subramanianr/react-native-honeywell-scanner-soft-trigger",
   "keywords": [
     "honeywell",
     "barcode",
-    "scanner"
+    "scanner",
+    "software-trigger"
   ],
   "engines": {
     "node": ">=4.0"

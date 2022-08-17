@@ -1,6 +1,6 @@
 # React Native Honeywell Scanner With Soft Trigger
 
-> **This package is build from [fork](https://github.com/Volst/react-native-honeywell-scanner). This package would be extended in future from [This fork](https://github.com/AMI3GOLtd/react-native-honeywell-scanner) which might work better.**
+> **This package is build using the [reference](https://github.com/Volst/react-native-honeywell-scanner). Implementation also borrows concepts from [This fork](https://github.com/AMI3GOLtd/react-native-honeywell-scanner).**
 
 This package works with Honeywell devices that have an integrated barcode scanner, like the Honeywell Dolphin CT40. This package was fully tested with a CT40, since the SDK is not specific to the CT40 other devices will likely work as well but this is not guaranteed.
 
@@ -44,7 +44,9 @@ useEffect(() => {
             : 'Barcode reader is busy',
         );
         HoneywellScanner.onBarcodeReadSuccess(event => {
-          console.log('Received data', event.propogated);
+	  console.log('Barcode Scan data', event.data);
+    	  console.log('Barcode Scan Timestamp', event.timeStamp);
+    	  console.log('Barcode Scan Type', event.symbology);
         });
 
         HoneywellScanner.onBarcodeReadFail(event => {
@@ -75,7 +77,9 @@ To get events from the barcode scanner:
 
 ```js
 HoneywellScanner.onBarcodeReadSuccess(event => {
-    console.log('Received data', event);
+    console.log('Barcode Scan data', event.data);
+    console.log('Barcode Scan Timestamp', event.timeStamp);
+    console.log('Barcode Scan Type', event.symbology);
 });
 
 HoneywellScanner.onBarcodeReadFail(event => {
